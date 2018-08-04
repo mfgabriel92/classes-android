@@ -3,4 +3,5 @@
 
     <!-- MainActivity -->
     <string name="my_classes_title">My Classes</string>
+    <string name="no_classes_today">No classes for today</string>
 </resources>
