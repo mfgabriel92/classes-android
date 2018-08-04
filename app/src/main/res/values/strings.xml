@@ -3,5 +3,9 @@
 
     <!-- MainActivity -->
     <string name="my_classes_title">My Classes</string>
+
+    <!-- AddActivity -->
+    <string name="new_schedule_title">New Schedule</string>
+
     <string name="no_classes_today">No classes for today</string>
 </resources>

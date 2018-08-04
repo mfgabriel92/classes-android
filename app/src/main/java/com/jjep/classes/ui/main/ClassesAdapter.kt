@@ -1,4 +1,4 @@
-package com.jjep.classes
+package com.jjep.classes.ui.main
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import com.jjep.classes.R
 import com.jjep.classes.database.Classes
 
 class ClassesAdapter(context: Context, onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<ClassesAdapter.ClassViewHolder>() {
@@ -19,7 +19,7 @@ class ClassesAdapter(context: Context, onItemClickListener: OnItemClickListener)
         mOnItemClickListener = onItemClickListener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassesAdapter.ClassViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassViewHolder {
         val view: View = LayoutInflater.from(mContext).inflate(R.layout.class_item, parent, false)
         return ClassViewHolder(view)
     }
@@ -28,15 +28,13 @@ class ClassesAdapter(context: Context, onItemClickListener: OnItemClickListener)
         return if (mList != null) mList.size else 0
     }
 
-    override fun onBindViewHolder(holder: ClassesAdapter.ClassViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ClassViewHolder, position: Int) {
         val classEntry: Classes = mList[position]
         val studentName: String = classEntry.studentName!!
         val studentObs: String = classEntry.studentObs!!
-        val classTime: String = classEntry.classTime!!
 
         holder.tvStudentName?.text = studentName
         holder.tvStudentObs?.text = studentObs
-        holder.tvClassTime?.text = classTime
     }
 
     fun setClasses(classes: List<Classes>) {

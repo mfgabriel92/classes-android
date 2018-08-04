@@ -1,7 +1,6 @@
-package com.jjep.classes
+package com.jjep.classes.ui.main
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -9,11 +8,12 @@ import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.*
+import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
-import com.jjep.classes.database.Classes
-import com.jjep.classes.viewmodel.MainViewModel
+import com.jjep.classes.ui.add.AddActivity
 
 class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
     private var mToolbar: Toolbar? = null
@@ -34,7 +34,22 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
         supportActionBar!!.title = getString(R.string.my_classes_title)
 
         init()
-        setUpViewModel()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_add_new -> {
+                val intent = Intent(this, AddActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        return true
     }
 
     override fun onItemClick(id: Int) {
@@ -51,26 +66,9 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
         mDb = AppDatabase.getInstance(applicationContext)
 
         mCalendar = findViewById(R.id.calendar)
+
         mTvNoClasses = findViewById(R.id.tv_no_classes)
         mImgNoClasses = findViewById(R.id.img_no_classes)
         mPbLoading = findViewById(R.id.pb_loading)
-    }
-
-    private fun setUpViewModel() {
-        mPbLoading?.visibility = View.VISIBLE
-
-        val classesViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
-        classesViewModel.getClasses().observe(this, Observer<List<Classes>> {
-            if (it!!.isEmpty()) {
-                mRvClasses?.visibility = View.GONE
-                mTvNoClasses?.visibility = View.VISIBLE
-                mImgNoClasses?.visibility = View.VISIBLE
-            }
-
-            mAdapter?.setClasses(it)
-        })
-
-        mPbLoading?.visibility = View.GONE
     }
 }

@@ -10,8 +10,7 @@ data class Classes(
     @PrimaryKey(autoGenerate = true) var id: Int?,
     @ColumnInfo(name = "student_name") var studentName: String?,
     @ColumnInfo(name = "student_obs") var studentObs: String?,
-    @ColumnInfo(name = "class_time") var classTime: String?,
     @ColumnInfo(name = "date") var date: Date?
 ) {
-    constructor() : this(null, null, null, null, null)
+    constructor() : this(null, null, null, null)
 }
