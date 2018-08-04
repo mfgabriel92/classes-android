@@ -5,7 +5,11 @@
     <string name="my_classes_title">My Classes</string>
 
     <!-- AddActivity -->
-    <string name="new_schedule_title">New Schedule</string>
+    <string name="new_schedule_title">New Schedule for %1$s</string>
+    <string name="label_student_name">Student Name</string>
+    <string name="label_student_obs">Observations for the student</string>
+    <string name="label_time">Choose a time</string>
+    <string name="btn_label_time">Save Schedule</string>
 
     <string name="no_classes_today">No classes for today</string>
 </resources>

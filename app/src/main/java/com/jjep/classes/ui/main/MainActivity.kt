@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
     private var mPbLoading: ProgressBar? = null
     private var mDb: AppDatabase? = null
 
+    private var mSelectedYear: Int? = null
+    private var mSelectedMonth: Int? = null
+    private var mSelectedDay: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,6 +49,9 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
         when (item?.itemId) {
             R.id.action_add_new -> {
                 val intent = Intent(this, AddActivity::class.java)
+                intent.putExtra("DAY", mSelectedDay.toString())
+                intent.putExtra("MONTH", mSelectedMonth.toString())
+                intent.putExtra("YEAR", mSelectedYear.toString())
                 startActivity(intent)
             }
         }
@@ -56,6 +63,9 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
         Toast.makeText(this, id.toString(), Toast.LENGTH_LONG).show()
     }
 
+    /**
+     * Initializes the variables and listeners
+     */
     private fun init() {
         mAdapter = ClassesAdapter(this, this)
         mRvClasses = findViewById(R.id.rv_classes)
@@ -66,6 +76,11 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
         mDb = AppDatabase.getInstance(applicationContext)
 
         mCalendar = findViewById(R.id.calendar)
+        mCalendar?.setOnDateChangeListener { _, y, m, d ->
+            mSelectedYear = y
+            mSelectedMonth = m
+            mSelectedDay = d
+        }
 
         mTvNoClasses = findViewById(R.id.tv_no_classes)
         mImgNoClasses = findViewById(R.id.img_no_classes)
