@@ -12,4 +12,7 @@
     <string name="btn_label_time">Save Schedule</string>
 
     <string name="no_classes_today">No classes for today</string>
+
+    <!-- Util -->
+    <string name="date_format">yyyy-MM-dd</string>
 </resources>

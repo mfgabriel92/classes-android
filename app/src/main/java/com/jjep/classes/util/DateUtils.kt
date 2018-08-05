@@ -1,6 +1,7 @@
 package com.jjep.classes.util
 
-import android.util.Log
+import android.content.Context
+import com.jjep.classes.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,5 +19,18 @@ object DateUtils {
         val day = if (d.length != 2) "0$d" else d
 
         return "$y-$month-$day"
+    }
+
+    /**
+     * Get the current date and format it to yyyy-MM-dd
+     *
+     * @return the formatted date yyyy-MM-dd
+     */
+    fun today(context: Context) : String {
+        val millis = System.currentTimeMillis()
+        val date = Date(millis)
+        val format = SimpleDateFormat(context.getString(R.string.date_format), Locale.getDefault())
+
+        return format.format(date)
     }
 }

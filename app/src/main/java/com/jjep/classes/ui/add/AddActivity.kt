@@ -9,7 +9,7 @@ import android.widget.EditText
 import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
 import com.jjep.classes.database.Classes
-import com.jjep.classes.util.DateUtils
+import com.jjep.classes.util.Constants
 import kotlin.concurrent.thread
 
 class AddActivity : AppCompatActivity() {
@@ -18,9 +18,7 @@ class AddActivity : AppCompatActivity() {
     private var mEdtStudentObs: EditText? = null
     private var mEdtTime: EditText? = null
 
-    private var mYear: String? = null
-    private var mMonth: String? = null
-    private var mDay: String? = null
+    private var mDate: String? = null
     private var mDb: AppDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +29,7 @@ class AddActivity : AppCompatActivity() {
 
         mToolbar = findViewById(R.id.add_activity_toolbar)
         setSupportActionBar(mToolbar)
-        supportActionBar!!.title = getString(R.string.new_schedule_title, "$mMonth/$mDay/$mYear")
+        supportActionBar!!.title = getString(R.string.new_schedule_title, mDate)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -49,9 +47,8 @@ class AddActivity : AppCompatActivity() {
     fun onClickSaveButton(view: View?) {
         val studentName: String = mEdtStudentName?.text.toString()
         val studentObs: String = mEdtStudentObs?.text.toString()
-        val date: String = DateUtils.convertToDate(mYear!!, mMonth!!, mDay!!)
         val time: String = mEdtTime?.text.toString()
-        val classEntry = Classes(null, studentName, studentObs, date, time)
+        val classEntry = Classes(null, studentName, studentObs, mDate, time)
 
         thread { mDb?.classesDao()?.insert(classEntry) }
 
@@ -64,9 +61,7 @@ class AddActivity : AppCompatActivity() {
     private fun init() {
         mDb = AppDatabase.getInstance(applicationContext)
 
-        mYear = intent.getStringExtra("YEAR")
-        mMonth = intent.getStringExtra("MONTH")
-        mDay = intent.getStringExtra("DAY")
+        mDate = intent.getStringExtra(Constants.EXTRA_STRING_DATE)
 
         mEdtStudentName = findViewById(R.id.edt_student_name)
         mEdtStudentObs = findViewById(R.id.edt_student_obs)

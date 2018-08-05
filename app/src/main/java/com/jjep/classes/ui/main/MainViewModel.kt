@@ -1,22 +1,27 @@
 package com.jjep.classes.ui.main
 
-import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
+import android.arch.lifecycle.ViewModel
+import android.content.Context
 import com.jjep.classes.database.AppDatabase
 import com.jjep.classes.database.Classes
-import java.util.*
 
-class MainViewModel(app: Application, date: Date) : AndroidViewModel(app) {
-    private var classes: LiveData<List<Classes>>?  = null
+class MainViewModel(context: Context, date: String) : ViewModel() {
     private var db: AppDatabase? = null
+    private val chosenDate = MutableLiveData<String>()
+    val classes: LiveData<List<Classes>>
 
     init {
-        db = AppDatabase.getInstance(this.getApplication())
-        classes = db?.classesDao()?.getClassesByDate(date)
+        db = AppDatabase.getInstance(context.applicationContext)
+        this.chosenDate.value = date
+        classes = Transformations.switchMap(this.chosenDate) {
+            db?.classesDao()?.getClassesByDate(it)
+        }
     }
 
-    fun getClasses() : LiveData<List<Classes>> {
-        return classes!!
+    fun setDate(date: String) {
+        this.chosenDate.value = date
     }
 }

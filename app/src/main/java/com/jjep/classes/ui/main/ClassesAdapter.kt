@@ -32,13 +32,15 @@ class ClassesAdapter(context: Context, onItemClickListener: OnItemClickListener)
         val classEntry: Classes = mList[position]
         val studentName: String = classEntry.studentName!!
         val studentObs: String = classEntry.studentObs!!
+        val time: String = classEntry.time!!
 
         holder.tvStudentName?.text = studentName
         holder.tvStudentObs?.text = studentObs
+        holder.tvClassTime?.text = time
     }
 
-    fun setClasses(classes: List<Classes>) {
-        mList = classes
+    fun setClasses(classes: List<Classes>?) {
+        mList = classes!!
         notifyDataSetChanged()
     }
 
