@@ -1,5 +1,7 @@
 package com.jjep.classes.ui.add
 
+import android.annotation.SuppressLint
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -10,6 +12,8 @@ import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
 import com.jjep.classes.database.Classes
 import com.jjep.classes.util.Constants
+import com.jjep.classes.util.TimeUtils
+import java.util.*
 import kotlin.concurrent.thread
 
 class AddActivity : AppCompatActivity() {
@@ -31,6 +35,8 @@ class AddActivity : AppCompatActivity() {
         setSupportActionBar(mToolbar)
         supportActionBar!!.title = getString(R.string.new_schedule_title, mDate)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        openTimer()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -66,5 +72,20 @@ class AddActivity : AppCompatActivity() {
         mEdtStudentName = findViewById(R.id.edt_student_name)
         mEdtStudentObs = findViewById(R.id.edt_student_obs)
         mEdtTime = findViewById(R.id.edt_time)
+    }
+
+    /**
+     * Open the dialog to choose the time of the classs
+     */
+    @SuppressLint("StringFormatMatches")
+    private fun openTimer() {
+        val calendar: Calendar = Calendar.getInstance()
+        val calendarHour = calendar.get(Calendar.HOUR)
+        val calendarMinute = calendar.get(Calendar.MINUTE)
+        
+        TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, h, m ->
+            val time = TimeUtils.get12HoursTimeFormat(this, h, m)
+            mEdtTime?.setText(time)
+        }, calendarHour, calendarMinute, false).show()
     }
 }
