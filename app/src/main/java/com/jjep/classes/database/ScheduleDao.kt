@@ -7,13 +7,13 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 
 @Dao
-interface ClassesDao {
-    @Query("SELECT * FROM classes WHERE date = :date")
-    fun getClassesByDate(date: String): LiveData<List<Classes>>
+interface ScheduleDao {
+    @Query("SELECT * FROM schedules WHERE date = :date")
+    fun getClassesByDate(date: String): LiveData<List<Schedule>>
 
-    @Query("SELECT * FROM classes WHERE id = :id")
-    fun getClassById(id: Int): LiveData<Classes>
+    @Query("SELECT * FROM schedules WHERE id = :id")
+    fun getClassById(id: Int): LiveData<Schedule>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(data: Classes)
+    fun insert(data: Schedule)
 }

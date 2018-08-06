@@ -5,14 +5,14 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 
-@Database(entities = [Classes::class, Student::class], version = 1, exportSchema = false)
+@Database(entities = [Schedule::class, Student::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun classesDao(): ClassesDao
+    abstract fun scheduleDao(): ScheduleDao
     abstract fun studentsDao(): StudentDao
 
     companion object {
         private var sInstance: AppDatabase? = null
-        private var database: String = "db_classes"
+        private var database: String = "classes"
 
         fun getInstance(context: Context): AppDatabase? {
             if (sInstance == null) {
@@ -24,6 +24,7 @@ abstract class AppDatabase : RoomDatabase() {
                     ).build()
                 }
             }
+
             return sInstance
         }
     }

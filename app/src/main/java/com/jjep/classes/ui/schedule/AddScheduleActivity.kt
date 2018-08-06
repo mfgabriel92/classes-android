@@ -1,4 +1,4 @@
-package com.jjep.classes.ui.`class`
+package com.jjep.classes.ui.schedule
 
 import android.app.TimePickerDialog
 import android.arch.lifecycle.Observer
@@ -14,7 +14,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
-import com.jjep.classes.database.Classes
+import com.jjep.classes.database.Schedule
 import com.jjep.classes.database.Student
 import com.jjep.classes.ui.student.AddStudentActivity
 import com.jjep.classes.ui.student.StudentViewModel
@@ -24,7 +24,7 @@ import com.jjep.classes.util.TimeUtils
 import java.util.*
 import kotlin.concurrent.thread
 
-class AddClassActivity : AppCompatActivity() {
+class AddScheduleActivity : AppCompatActivity() {
     private var mToolbar: Toolbar? = null
     private var mSpinnerStudentName: Spinner? = null
     private var mEdtStudentObs: EditText? = null
@@ -37,7 +37,7 @@ class AddClassActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_class)
+        setContentView(R.layout.activity_add_schedule)
 
         init()
 
@@ -71,9 +71,9 @@ class AddClassActivity : AppCompatActivity() {
     fun onClickSaveClassButton(view: View?) {
         val studentObs: String = mEdtStudentObs?.text.toString()
         val time: String = mEdtTime?.text.toString()
-        val classEntry = Classes(null, mStudentName, studentObs, mDate, time)
+        val classEntry = Schedule(null, mStudentName, studentObs, mDate, time)
 
-        thread { mDb?.classesDao()?.insert(classEntry) }
+        thread { mDb?.scheduleDao()?.insert(classEntry) }
 
         finish()
     }

@@ -1,4 +1,4 @@
-package com.jjep.classes.ui.`class`
+package com.jjep.classes.ui.schedule
 
 import android.content.Context
 import android.view.View

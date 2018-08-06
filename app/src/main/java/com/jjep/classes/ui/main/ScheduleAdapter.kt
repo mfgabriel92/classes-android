@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.jjep.classes.R
-import com.jjep.classes.database.Classes
+import com.jjep.classes.database.Schedule
 
-class ClassesAdapter(context: Context, onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<ClassesAdapter.ClassViewHolder>() {
+class ScheduleAdapter(context: Context, onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<ScheduleAdapter.ClassViewHolder>() {
     private var mContext: Context? = null
     private var mOnItemClickListener: OnItemClickListener? = null
-    private var mList = listOf<Classes>()
+    private var mList = listOf<Schedule>()
 
     init {
         mContext = context
@@ -20,7 +20,7 @@ class ClassesAdapter(context: Context, onItemClickListener: OnItemClickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassViewHolder {
-        val view: View = LayoutInflater.from(mContext).inflate(R.layout.class_item, parent, false)
+        val view: View = LayoutInflater.from(mContext).inflate(R.layout.schedule_item, parent, false)
         return ClassViewHolder(view)
     }
 
@@ -29,7 +29,7 @@ class ClassesAdapter(context: Context, onItemClickListener: OnItemClickListener)
     }
 
     override fun onBindViewHolder(holder: ClassViewHolder, position: Int) {
-        val classEntry: Classes = mList[position]
+        val classEntry: Schedule = mList[position]
         val studentName: String = classEntry.studentName!!
         val studentObs: String = classEntry.studentObs!!
         val time: String = classEntry.time!!
@@ -39,8 +39,8 @@ class ClassesAdapter(context: Context, onItemClickListener: OnItemClickListener)
         holder.tvClassTime?.text = time
     }
 
-    fun setClasses(classes: List<Classes>?) {
-        mList = classes!!
+    fun setClasses(schedules: List<Schedule>?) {
+        mList = schedules!!
         notifyDataSetChanged()
     }
 

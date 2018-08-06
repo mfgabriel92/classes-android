@@ -16,16 +16,16 @@ import android.view.View
 import android.widget.*
 import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
-import com.jjep.classes.database.Classes
-import com.jjep.classes.ui.`class`.AddClassActivity
+import com.jjep.classes.database.Schedule
+import com.jjep.classes.ui.schedule.AddScheduleActivity
 import com.jjep.classes.util.Constants
 import com.jjep.classes.util.DateUtils
 
-class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity(), ScheduleAdapter.OnItemClickListener {
     private var mToolbar: Toolbar? = null
     private var mCalendar: CalendarView? = null
     private var mRvClasses: RecyclerView? = null
-    private var mAdapter: ClassesAdapter? = null
+    private var mAdapter: ScheduleAdapter? = null
     private var mTvNoClasses: TextView? = null
     private var mImgNoClasses: ImageView? = null
     private var mPbLoading: ProgressBar? = null
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
 
         mToolbar = findViewById(R.id.main_activity_toolbar)
         setSupportActionBar(mToolbar)
-        supportActionBar!!.title = getString(R.string.my_classes_title)
+        supportActionBar!!.title = getString(R.string.my_schedules_title)
 
         init()
     }
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_add_new -> {
-                val intent = Intent(this, AddClassActivity::class.java)
+                val intent = Intent(this, AddScheduleActivity::class.java)
                 intent.putExtra(Constants.EXTRA_STRING_DATE, mSelectedDate)
                 startActivity(intent)
             }
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
      * Initializes the variables and listeners
      */
     private fun init() {
-        mAdapter = ClassesAdapter(this, this)
+        mAdapter = ScheduleAdapter(this, this)
         mRvClasses = findViewById(R.id.rv_classes)
         mRvClasses?.isNestedScrollingEnabled = false
         mRvClasses?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -86,13 +86,13 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
     }
 
     /**
-     * Fetch the classes according to the selected day of the calendar
+     * Fetch the schedule according to the selected day of the calendar
      */
     private fun fetchClasses() {
         mSelectedDate = DateUtils.today(applicationContext)
 
-        val classesModelFactory = ClassViewModelFactory(applicationContext, mSelectedDate!!)
-        val classesViewModel = ViewModelProviders.of(this, classesModelFactory).get(ClassViewModel::class.java)
+        val scheduleModelFactory = ScheduleViewModelFactory(applicationContext, mSelectedDate!!)
+        val scheduleViewModel = ViewModelProviders.of(this, scheduleModelFactory).get(ScheduleViewModel::class.java)
 
         mCalendar = findViewById(R.id.calendar)
         mCalendar?.setOnDateChangeListener { _, y, m, d ->
@@ -101,10 +101,10 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
             val day = d.toString()
 
             mSelectedDate = DateUtils.convertToDate(year, month, day)
-            classesViewModel.setDate(mSelectedDate!!)
+            scheduleViewModel.setDate(mSelectedDate!!)
         }
 
-        classesViewModel.classes.observe(this, Observer<List<Classes>> {
+        scheduleViewModel.schedule.observe(this, Observer<List<Schedule>> {
             if (it!!.isEmpty())
                 displayEmptyList()
             else
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
     }
 
     /**
-     * Show a funny image indicating there are no classes for the selected day
+     * Show a funny image indicating there are no schedule for the selected day
      */
     private fun displayEmptyList() {
         mRvClasses?.visibility = View.GONE
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
     }
 
     /**
-     * Show the list of classes for the selected day
+     * Show the list of schedule for the selected day
      */
     private fun displayClassesList() {
         mRvClasses?.visibility = View.VISIBLE

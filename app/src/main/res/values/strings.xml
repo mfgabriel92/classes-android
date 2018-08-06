@@ -2,15 +2,12 @@
     <string name="app_name">Classes</string>
 
     <!-- MainActivity -->
-    <string name="my_classes_title">My Classes</string>
+    <string name="my_schedules_title">My Schedules</string>
 
-    <!-- AddClassActivity -->
+    <!-- AddScheduleActivity -->
     <string name="new_schedule_title">Class for %1$s</string>
-    <string name="no_classes_today">No classes for today</string>
+    <string name="no_schedules_today">No schedules for today</string>
     <string name="label_student_name">Student Name</string>
-    <string-array name="students_list">
-        %1$s
-    </string-array>
     <string name="label_student_obs">Observations for the student</string>
     <string name="label_time">Choose a time</string>
     <string name="btn_save_schedule">Save Schedule</string>

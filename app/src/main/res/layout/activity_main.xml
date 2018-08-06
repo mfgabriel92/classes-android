@@ -47,13 +47,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/no_classes_today"
+        android:text="@string/no_schedules_today"
         android:textColor="@color/colorSecondary"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_no_classes"
-        tools:text="No classes for today" />
+        tools:text="No schedules for today" />
 
     <ProgressBar
         android:id="@+id/pb_loading"

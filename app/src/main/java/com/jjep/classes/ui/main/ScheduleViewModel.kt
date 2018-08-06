@@ -6,18 +6,18 @@ import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 import com.jjep.classes.database.AppDatabase
-import com.jjep.classes.database.Classes
+import com.jjep.classes.database.Schedule
 
-class ClassViewModel(context: Context, date: String) : ViewModel() {
+class ScheduleViewModel(context: Context, date: String) : ViewModel() {
     private var db: AppDatabase? = null
     private val chosenDate = MutableLiveData<String>()
-    val classes: LiveData<List<Classes>>
+    val schedule: LiveData<List<Schedule>>
 
     init {
         db = AppDatabase.getInstance(context.applicationContext)
         this.chosenDate.value = date
-        classes = Transformations.switchMap(this.chosenDate) {
-            db?.classesDao()?.getClassesByDate(it)
+        schedule = Transformations.switchMap(this.chosenDate) {
+            db?.scheduleDao()?.getClassesByDate(it)
         }
     }
 

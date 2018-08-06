@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.class.AddClassActivity">
+        <activity android:name=".ui.schedule.AddScheduleActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
@@ -25,7 +25,12 @@
         <activity android:name=".ui.student.AddStudentActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.class.AddClassActivity" />
+                android:value=".ui.schedule.AddScheduleActivity" />
+        </activity>
+        <activity android:name=".ui.student.StudentDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity" />
         </activity>
     </application>
 </manifest>
