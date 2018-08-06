@@ -10,6 +10,7 @@ import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -90,13 +91,18 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
      */
     private fun fetchClasses() {
         mSelectedDate = DateUtils.today(applicationContext)
+        Log.d("Main", mSelectedDate)
 
         val mModelFactory = MainViewModelFactory(applicationContext, mSelectedDate!!)
         val mClassesViewModel = ViewModelProviders.of(this, mModelFactory).get(MainViewModel::class.java)
 
         mCalendar = findViewById(R.id.calendar)
         mCalendar?.setOnDateChangeListener { _, y, m, d ->
-            mSelectedDate = DateUtils.convertToDate(y.toString(), m.toString(), d.toString())
+            val year = y.toString()
+            val month = (m + 1).toString()
+            val day = d.toString()
+
+            mSelectedDate = DateUtils.convertToDate(year, month, day)
             mClassesViewModel.setDate(mSelectedDate!!)
         }
 
