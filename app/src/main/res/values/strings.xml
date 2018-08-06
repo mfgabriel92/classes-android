@@ -5,9 +5,12 @@
     <string name="my_classes_title">My Classes</string>
 
     <!-- AddClassActivity -->
-    <string name="new_schedule_title">New Schedule for %1$s</string>
+    <string name="new_schedule_title">Class for %1$s</string>
     <string name="no_classes_today">No classes for today</string>
     <string name="label_student_name">Student Name</string>
+    <string-array name="students_list">
+        %1$s
+    </string-array>
     <string name="label_student_obs">Observations for the student</string>
     <string name="label_time">Choose a time</string>
     <string name="btn_save_schedule">Save Schedule</string>
@@ -19,4 +22,5 @@
 
     <!-- Util -->
     <string name="date_format">yyyy-MM-dd</string>
+    <string name="beautiful_date_format">EEE, MMM d, yy</string>
 </resources>

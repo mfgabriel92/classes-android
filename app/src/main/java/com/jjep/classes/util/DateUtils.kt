@@ -24,6 +24,7 @@ object DateUtils {
     /**
      * Get the current date and format it to yyyy-MM-dd
      *
+     * @param context context
      * @return the formatted date yyyy-MM-dd
      */
     fun today(context: Context) : String {

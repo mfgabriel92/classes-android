@@ -25,10 +25,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_activity_toolbar" />
 
-    <EditText
-        android:id="@+id/edt_student_name"
+    <Spinner
+        android:id="@+id/spinner_student_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="40dp"
@@ -42,10 +42,10 @@
         android:layout_height="24dp"
         android:src="@drawable/ic_add_blue_24dp"
         android:onClick="onClickAddStudent"
-        app:layout_constraintBottom_toBottomOf="@+id/edt_student_name"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_student_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/edt_student_name"
-        app:layout_constraintTop_toTopOf="@+id/edt_student_name" />
+        app:layout_constraintStart_toEndOf="@id/spinner_student_name"
+        app:layout_constraintTop_toTopOf="@+id/spinner_student_name" />
 
     <TextView
         android:id="@+id/tv_label_student_obs"
@@ -55,7 +55,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/label_student_obs"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_student_name" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_student_name" />
 
     <EditText
         android:id="@+id/edt_student_obs"

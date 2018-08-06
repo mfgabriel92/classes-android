@@ -9,10 +9,7 @@ import android.arch.persistence.room.Query
 @Dao
 interface StudentDao {
     @Query("SELECT * FROM students")
-    fun getStudents(): LiveData<List<Student>>
-
-    @Query("SELECT * FROM classes WHERE id = :id")
-    fun getStudentById(id: Int): LiveData<Student>
+    fun getStudents() : LiveData<List<Student>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(data: Student)
