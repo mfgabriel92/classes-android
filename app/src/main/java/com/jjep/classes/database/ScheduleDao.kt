@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query
 
 @Dao
 interface ScheduleDao {
-    @Query("SELECT * FROM schedules WHERE date = :date")
+    @Query("SELECT * FROM schedules WHERE date = :date ORDER BY time ASC")
     fun getClassesByDate(date: String): LiveData<List<Schedule>>
 
     @Query("SELECT * FROM schedules WHERE id = :id")
