@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.add.AddActivity">
+    tools:context=".ui.class.AddClassActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/add_activity_toolbar"
@@ -29,12 +29,23 @@
         android:id="@+id/edt_student_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="40dp"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_label_student_name" />
+
+    <ImageView
+        android:id="@+id/img_add_student"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_add_blue_24dp"
+        android:onClick="onClickAddStudent"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_student_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edt_student_name"
+        app:layout_constraintTop_toTopOf="@+id/edt_student_name" />
 
     <TextView
         android:id="@+id/tv_label_student_obs"
@@ -50,10 +61,11 @@
         android:id="@+id/edt_student_obs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_label_student_obs" />
 
@@ -71,10 +83,11 @@
         android:id="@+id/edt_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:inputType="time"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_label_time_pick" />
 
@@ -85,8 +98,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="@string/btn_label_time"
-        android:onClick="onClickSaveButton"
+        android:text="@string/btn_save_schedule"
+        android:onClick="onClickSaveClassButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

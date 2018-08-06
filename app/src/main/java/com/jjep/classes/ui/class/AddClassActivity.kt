@@ -1,7 +1,8 @@
-package com.jjep.classes.ui.add
+package com.jjep.classes.ui.`class`
 
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -11,12 +12,13 @@ import android.widget.EditText
 import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
 import com.jjep.classes.database.Classes
+import com.jjep.classes.ui.student.AddStudentActivity
 import com.jjep.classes.util.Constants
 import com.jjep.classes.util.TimeUtils
 import java.util.*
 import kotlin.concurrent.thread
 
-class AddActivity : AppCompatActivity() {
+class AddClassActivity : AppCompatActivity() {
     private var mToolbar: Toolbar? = null
     private var mEdtStudentName: EditText? = null
     private var mEdtStudentObs: EditText? = null
@@ -27,7 +29,7 @@ class AddActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add)
+        setContentView(R.layout.activity_add_class)
 
         init()
 
@@ -47,10 +49,15 @@ class AddActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun onClickAddStudent(view: View?) {
+        val intent = Intent(this, AddStudentActivity::class.java)
+        startActivity(intent)
+    }
+
     /**
      * Saves into the database the new schedule
      */
-    fun onClickSaveButton(view: View?) {
+    fun onClickSaveClassButton(view: View?) {
         val studentName: String = mEdtStudentName?.text.toString()
         val studentObs: String = mEdtStudentObs?.text.toString()
         val time: String = mEdtTime?.text.toString()

@@ -5,10 +5,10 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 
-@Database(entities = [Classes::class], version = 1, exportSchema = false)
+@Database(entities = [Classes::class, Student::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-
     abstract fun classesDao(): ClassesDao
+    abstract fun studentsDao(): StudentDao
 
     companion object {
         private var sInstance: AppDatabase? = null
@@ -25,10 +25,6 @@ abstract class AppDatabase : RoomDatabase() {
                 }
             }
             return sInstance
-        }
-
-        fun destroyInstance() {
-            sInstance = null
         }
     }
 }

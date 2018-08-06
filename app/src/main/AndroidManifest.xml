@@ -13,13 +13,19 @@
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.add.AddActivity">
+        <activity android:name=".ui.class.AddClassActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
+        </activity>
+        <activity android:name=".ui.student.AddStudentActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.class.AddClassActivity" />
         </activity>
     </application>
 </manifest>

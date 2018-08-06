@@ -18,7 +18,7 @@ import android.widget.*
 import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
 import com.jjep.classes.database.Classes
-import com.jjep.classes.ui.add.AddActivity
+import com.jjep.classes.ui.`class`.AddClassActivity
 import com.jjep.classes.util.Constants
 import com.jjep.classes.util.DateUtils
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), ClassesAdapter.OnItemClickListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_add_new -> {
-                val intent = Intent(this, AddActivity::class.java)
+                val intent = Intent(this, AddClassActivity::class.java)
                 intent.putExtra(Constants.EXTRA_STRING_DATE, mSelectedDate)
                 startActivity(intent)
             }
