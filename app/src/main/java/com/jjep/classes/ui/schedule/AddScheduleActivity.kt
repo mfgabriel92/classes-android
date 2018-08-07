@@ -29,11 +29,11 @@ class AddScheduleActivity : AppCompatActivity() {
     private var mSpinnerStudentName: Spinner? = null
     private var mEdtStudentObs: EditText? = null
     private var mEdtTime: EditText? = null
-
     private var mDate: String? = null
     private var mStudentAdapter: StudentSpinner? = null
     private var mStudentName: String? = null
     private var mDb: AppDatabase? = null
+    private var mScheduleId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,9 +71,16 @@ class AddScheduleActivity : AppCompatActivity() {
     fun onClickSaveClassButton(view: View?) {
         val studentObs: String = mEdtStudentObs?.text.toString()
         val time: String = mEdtTime?.text.toString()
-        val classEntry = Schedule(null, mStudentName, studentObs, mDate, time)
 
-        thread { mDb?.scheduleDao()?.insert(classEntry) }
+        thread {
+            if (mScheduleId != null && mScheduleId != -1) {
+                val scheduleEntry = Schedule(mScheduleId, mStudentName, studentObs, mDate, time)
+                mDb?.scheduleDao()?.update(scheduleEntry)
+            } else {
+                val scheduleEntry = Schedule(null, mStudentName, studentObs, mDate, time)
+                mDb?.scheduleDao()?.insert(scheduleEntry)
+            }
+        }
 
         finish()
     }
@@ -82,6 +89,7 @@ class AddScheduleActivity : AppCompatActivity() {
      * Initializes the variables and listeners
      */
     private fun init() {
+        mScheduleId = intent.getIntExtra(Constants.EXTRA_INT_SCHEDULE_ID, -1)
         mDb = AppDatabase.getInstance(applicationContext)
         mDate = intent.getStringExtra(Constants.EXTRA_STRING_DATE)
 
@@ -94,6 +102,15 @@ class AddScheduleActivity : AppCompatActivity() {
         mEdtTime = findViewById(R.id.edt_time)
 
         populateStudentsSpinner()
+
+        if (mScheduleId != null && mScheduleId != -1) {
+            val scheduleModelFactory = ScheduleViewModelFactory(applicationContext, null, mScheduleId!!)
+            val scheduleViewModel = ViewModelProviders.of(this, scheduleModelFactory).get(ScheduleViewModel::class.java)
+
+            scheduleViewModel.getSchedule().observe(this, Observer<Schedule> {
+                populateUI(it!!)
+            })
+        }
     }
 
     /**
@@ -103,7 +120,7 @@ class AddScheduleActivity : AppCompatActivity() {
         val calendar: Calendar = Calendar.getInstance()
         val calendarHour = calendar.get(Calendar.HOUR)
         val calendarMinute = calendar.get(Calendar.MINUTE)
-        
+
         TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, h, m ->
             val time = TimeUtils.get12HoursTimeFormat(this, h, m)
             mEdtTime?.setText(time)
@@ -123,5 +140,12 @@ class AddScheduleActivity : AppCompatActivity() {
 
             mSpinnerStudentName?.adapter = mStudentAdapter
         })
+    }
+
+    /**
+     * If editing, populate the information for update
+     */
+    private fun populateUI(schedule: Schedule) {
+        mEdtStudentObs?.setText(schedule.studentObs)
     }
 }

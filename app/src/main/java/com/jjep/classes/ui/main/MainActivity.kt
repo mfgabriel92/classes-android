@@ -13,11 +13,17 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.CalendarView
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
 import com.jjep.classes.database.Schedule
 import com.jjep.classes.ui.schedule.AddScheduleActivity
+import com.jjep.classes.ui.schedule.ScheduleAdapter
+import com.jjep.classes.ui.schedule.ScheduleViewModel
+import com.jjep.classes.ui.schedule.ScheduleViewModelFactory
 import com.jjep.classes.util.Constants
 import com.jjep.classes.util.DateUtils
 
@@ -62,7 +68,10 @@ class MainActivity : AppCompatActivity(), ScheduleAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(id: Int) {
-        Toast.makeText(this, id.toString(), Toast.LENGTH_LONG).show()
+        val intent = Intent(this, AddScheduleActivity::class.java)
+        intent.putExtra(Constants.EXTRA_INT_SCHEDULE_ID , id)
+        intent.putExtra(Constants.EXTRA_STRING_DATE, mSelectedDate)
+        startActivity(intent)
     }
 
     /**
@@ -91,7 +100,7 @@ class MainActivity : AppCompatActivity(), ScheduleAdapter.OnItemClickListener {
     private fun fetchClasses() {
         mSelectedDate = DateUtils.today(applicationContext)
 
-        val scheduleModelFactory = ScheduleViewModelFactory(applicationContext, mSelectedDate!!)
+        val scheduleModelFactory = ScheduleViewModelFactory(applicationContext, mSelectedDate!!, null)
         val scheduleViewModel = ViewModelProviders.of(this, scheduleModelFactory).get(ScheduleViewModel::class.java)
 
         mCalendar = findViewById(R.id.calendar)
@@ -104,7 +113,7 @@ class MainActivity : AppCompatActivity(), ScheduleAdapter.OnItemClickListener {
             scheduleViewModel.setDate(mSelectedDate!!)
         }
 
-        scheduleViewModel.schedule.observe(this, Observer<List<Schedule>> {
+        scheduleViewModel.schedules.observe(this, Observer<List<Schedule>> {
             if (it!!.isEmpty())
                 displayEmptyList()
             else

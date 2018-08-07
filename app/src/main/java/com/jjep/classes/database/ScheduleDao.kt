@@ -1,19 +1,19 @@
 package com.jjep.classes.database
 
 import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 
 @Dao
 interface ScheduleDao {
     @Query("SELECT * FROM schedules WHERE date = :date ORDER BY time ASC")
-    fun getClassesByDate(date: String): LiveData<List<Schedule>>
+    fun getSchedules(date: String): LiveData<List<Schedule>>
 
     @Query("SELECT * FROM schedules WHERE id = :id")
-    fun getClassById(id: Int): LiveData<Schedule>
+    fun getSchedule(id: Int): LiveData<Schedule>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     fun insert(data: Schedule)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun update(data: Schedule)
 }

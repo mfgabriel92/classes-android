@@ -12,7 +12,6 @@ class StudentSpinner(context: Context, res: Int, students: List<Student>) : Arra
     private var mStudents: List<Student>? = null
 
     init {
-        this.mRes = res
         this.mStudents = students
     }
 

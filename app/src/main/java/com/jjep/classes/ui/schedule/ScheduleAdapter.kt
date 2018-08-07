@@ -1,4 +1,4 @@
-package com.jjep.classes.ui.main
+package com.jjep.classes.ui.schedule
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
