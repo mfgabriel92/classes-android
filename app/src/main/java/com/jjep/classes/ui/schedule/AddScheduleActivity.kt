@@ -147,5 +147,6 @@ class AddScheduleActivity : AppCompatActivity() {
      */
     private fun populateUI(schedule: Schedule) {
         mEdtStudentObs?.setText(schedule.studentObs)
+        mEdtTime?.setText(schedule.time)
     }
 }

@@ -16,8 +16,7 @@ object TimeUtils {
     @SuppressLint("StringFormatMatches")
     fun get12HoursTimeFormat(context: Context, hour: Int, minute: Int) : String {
         var h: Int = hour
-        val m: Int = if (minute.toString().length == 2) minute else "0$minute".toInt()
-        var ampm: String
+        val ampm: String
 
         when {
             hour > 12 -> {
@@ -32,6 +31,9 @@ object TimeUtils {
             else -> ampm = "AM"
         }
 
-        return context.getString(R.string.input_time, h, m, ampm)
+        val chosenHour: String = h.toString()
+        val chosenMinute = if (minute.toString().length == 2) minute.toString() else "0$minute"
+
+        return context.getString(R.string.input_time, chosenHour, chosenMinute, ampm)
     }
 }
