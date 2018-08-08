@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
@@ -30,8 +31,10 @@ class AddScheduleActivity : AppCompatActivity() {
     private var mEdtStudentObs: EditText? = null
     private var mEdtTime: EditText? = null
     private var mDate: String? = null
+    private var mBtnDeleteSchedule: ImageButton? = null
     private var mStudentAdapter: StudentSpinner? = null
     private var mStudentName: String? = null
+    private var mStudentPos: Int? = null
     private var mDb: AppDatabase? = null
     private var mScheduleId: Int? = null
 
@@ -74,12 +77,24 @@ class AddScheduleActivity : AppCompatActivity() {
 
         thread {
             if (mScheduleId != null && mScheduleId != -1) {
-                val scheduleEntry = Schedule(mScheduleId, mStudentName, studentObs, mDate, time)
+                val scheduleEntry = Schedule(mScheduleId, mStudentName, studentObs, mDate, time, mStudentPos)
                 mDb?.scheduleDao()?.update(scheduleEntry)
             } else {
-                val scheduleEntry = Schedule(null, mStudentName, studentObs, mDate, time)
+                val scheduleEntry = Schedule(null, mStudentName, studentObs, mDate, time, mStudentPos)
                 mDb?.scheduleDao()?.insert(scheduleEntry)
             }
+        }
+
+        finish()
+    }
+
+    /**
+     * Deletes a schedule
+     */
+    fun onClickDeleteSchedule(view: View?) {
+        thread {
+            val schedule = Schedule(mScheduleId, null, null, null, null, null)
+            mDb?.scheduleDao()?.delete(schedule)
         }
 
         finish()
@@ -89,6 +104,10 @@ class AddScheduleActivity : AppCompatActivity() {
      * Initializes the variables and listeners
      */
     private fun init() {
+        mEdtStudentObs = findViewById(R.id.edt_student_obs)
+        mEdtTime = findViewById(R.id.edt_time)
+        mBtnDeleteSchedule = findViewById(R.id.btn_delete_schedule)
+
         mScheduleId = intent.getIntExtra(Constants.EXTRA_INT_SCHEDULE_ID, -1)
         mDb = AppDatabase.getInstance(applicationContext)
         mDate = intent.getStringExtra(Constants.EXTRA_STRING_DATE)
@@ -96,19 +115,27 @@ class AddScheduleActivity : AppCompatActivity() {
         mSpinnerStudentName = findViewById(R.id.spinner_student_name)
         mSpinnerStudentName?.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { mStudentName = mStudentAdapter?.getItem(position)?.name }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                mStudentName = mStudentAdapter?.getItem(position)?.name
+                mStudentPos = position
+            }
         }
-        mEdtStudentObs = findViewById(R.id.edt_student_obs)
-        mEdtTime = findViewById(R.id.edt_time)
 
         populateStudentsSpinner()
 
-        if (mScheduleId != null && mScheduleId != -1) {
+        if (intent != null && intent.hasExtra(Constants.EXTRA_INT_SCHEDULE_ID)) {
+            mBtnDeleteSchedule?.visibility = View.VISIBLE
+
             val scheduleModelFactory = ScheduleViewModelFactory(applicationContext, null, mScheduleId!!)
             val scheduleViewModel = ViewModelProviders.of(this, scheduleModelFactory).get(ScheduleViewModel::class.java)
 
-            scheduleViewModel.getSchedule().observe(this, Observer<Schedule> {
-                populateUI(it!!)
+            scheduleViewModel.getSchedule().observe(this, object: Observer<Schedule> {
+                override fun onChanged(schedule: Schedule?) {
+                    scheduleViewModel.getSchedule().removeObserver(this)
+//                    mSpinnerStudentName?.setSelection(schedule!!._student_pos!!)
+                    mEdtStudentObs?.setText(schedule!!.studentObs)
+                    mEdtTime?.setText(schedule!!.time)
+                }
             })
         }
     }
@@ -140,13 +167,5 @@ class AddScheduleActivity : AppCompatActivity() {
 
             mSpinnerStudentName?.adapter = mStudentAdapter
         })
-    }
-
-    /**
-     * If editing, populate the information for update
-     */
-    private fun populateUI(schedule: Schedule) {
-        mEdtStudentObs?.setText(schedule.studentObs)
-        mEdtTime?.setText(schedule.time)
     }
 }

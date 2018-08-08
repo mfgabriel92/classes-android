@@ -16,4 +16,7 @@ interface ScheduleDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(data: Schedule)
+
+    @Delete
+    fun delete(data: Schedule)
 }

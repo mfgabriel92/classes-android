@@ -1,14 +1,15 @@
 package com.jjep.classes.ui.schedule
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.jjep.classes.R
 import com.jjep.classes.database.Student
 
 class StudentSpinner(context: Context, res: Int, students: List<Student>) : ArrayAdapter<Student>(context, res, students) {
-    private var mRes: Int? = null
     private var mStudents: List<Student>? = null
 
     init {
@@ -28,16 +29,26 @@ class StudentSpinner(context: Context, res: Int, students: List<Student>) : Arra
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val name: TextView = super.getView(position, convertView, parent) as TextView
-        name.text = mStudents!![position].name
-
-        return name
+        return display(convertView, parent, position)
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val name: TextView = super.getDropDownView(position, convertView, parent) as TextView
-        name.text = mStudents!![position].name
+        return display(convertView, parent, position)
+    }
 
-        return name
+    private fun display(convertView: View?, parent: ViewGroup?, position: Int): View {
+        var view: View? = convertView
+
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.student_item, parent, false)
+        }
+
+        val name = view?.findViewById<TextView>(R.id.tv_lst_student_name)
+        name?.text = mStudents!![position].name
+
+        val pos = view?.findViewById<TextView>(R.id.tv_lst_student_position)
+        pos?.text = position.toString()
+
+        return view!!
     }
 }

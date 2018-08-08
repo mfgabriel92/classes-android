@@ -10,7 +10,8 @@ data class Schedule(
     @ColumnInfo(name = "student_name") var studentName: String?,
     @ColumnInfo(name = "student_obs") var studentObs: String?,
     @ColumnInfo(name = "date") var date: String?,
-    @ColumnInfo(name = "time") var time: String?
+    @ColumnInfo(name = "time") var time: String?,
+    @ColumnInfo(name = "_student_pos") var _student_pos: Int?
 ) {
-    constructor() : this(null, null, null, null, null)
+    constructor() : this(null, null, null, null, null, null)
 }

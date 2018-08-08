@@ -67,6 +67,11 @@ class MainActivity : AppCompatActivity(), ScheduleAdapter.OnItemClickListener {
         return true
     }
 
+    /**
+     * Overriding the method for when pressing an item in the adapter
+     *
+     * @param id id of the item
+     */
     override fun onItemClick(id: Int) {
         val intent = Intent(this, AddScheduleActivity::class.java)
         intent.putExtra(Constants.EXTRA_INT_SCHEDULE_ID , id)
