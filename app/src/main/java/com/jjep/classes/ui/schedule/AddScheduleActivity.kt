@@ -1,5 +1,6 @@
 package com.jjep.classes.ui.schedule
 
+import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.EditText
@@ -48,8 +50,6 @@ class AddScheduleActivity : AppCompatActivity() {
         setSupportActionBar(mToolbar)
         supportActionBar!!.title = getString(R.string.new_schedule_title, mDate)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        openTimer()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -103,17 +103,18 @@ class AddScheduleActivity : AppCompatActivity() {
     /**
      * Initializes the variables and listeners
      */
+    @SuppressLint("ClickableViewAccessibility")
     private fun init() {
+        mSpinnerStudentName = findViewById(R.id.spinner_student_name)
         mEdtStudentObs = findViewById(R.id.edt_student_obs)
         mEdtTime = findViewById(R.id.edt_time)
+        mEdtTime?.setOnTouchListener { _, motionEvent -> openTimer(motionEvent); true}
         mBtnDeleteSchedule = findViewById(R.id.btn_delete_schedule)
 
         mScheduleId = intent.getIntExtra(Constants.EXTRA_INT_SCHEDULE_ID, -1)
         mDb = AppDatabase.getInstance(applicationContext)
         mDate = intent.getStringExtra(Constants.EXTRA_STRING_DATE)
-
-        mSpinnerStudentName = findViewById(R.id.spinner_student_name)
-        mSpinnerStudentName?.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+        mSpinnerStudentName?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 mStudentName = mStudentAdapter?.getItem(position)?.name
@@ -129,7 +130,7 @@ class AddScheduleActivity : AppCompatActivity() {
             val scheduleModelFactory = ScheduleViewModelFactory(applicationContext, null, mScheduleId!!)
             val scheduleViewModel = ViewModelProviders.of(this, scheduleModelFactory).get(ScheduleViewModel::class.java)
 
-            scheduleViewModel.getSchedule().observe(this, object: Observer<Schedule> {
+            scheduleViewModel.getSchedule().observe(this, object : Observer<Schedule> {
                 override fun onChanged(schedule: Schedule?) {
                     scheduleViewModel.getSchedule().removeObserver(this)
 //                    mSpinnerStudentName?.setSelection(schedule!!._student_pos!!)
@@ -138,20 +139,6 @@ class AddScheduleActivity : AppCompatActivity() {
                 }
             })
         }
-    }
-
-    /**
-     * Open the dialog to choose the time of the class
-     */
-    private fun openTimer() {
-        val calendar: Calendar = Calendar.getInstance()
-        val calendarHour = calendar.get(Calendar.HOUR)
-        val calendarMinute = calendar.get(Calendar.MINUTE)
-
-        TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, h, m ->
-            val time = TimeUtils.get12HoursTimeFormat(this, h, m)
-            mEdtTime?.setText(time)
-        }, calendarHour, calendarMinute, false).show()
     }
 
     /**
@@ -167,5 +154,21 @@ class AddScheduleActivity : AppCompatActivity() {
 
             mSpinnerStudentName?.adapter = mStudentAdapter
         })
+    }
+
+    /**
+     * Open the dialog to choose the time of the class
+     */
+    private fun openTimer(motionEvent: MotionEvent) {
+        if (motionEvent.action == MotionEvent.ACTION_DOWN) {
+            val calendar: Calendar = Calendar.getInstance()
+            val calendarHour = calendar.get(Calendar.HOUR)
+            val calendarMinute = calendar.get(Calendar.MINUTE)
+
+            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, h, m ->
+                val time = TimeUtils.get12HoursTimeFormat(this, h, m)
+                mEdtTime?.setText(time)
+            }, calendarHour, calendarMinute, false).show()
+        }
     }
 }
