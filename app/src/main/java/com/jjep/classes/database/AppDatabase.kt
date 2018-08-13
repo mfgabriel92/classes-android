@@ -4,28 +4,25 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import com.jjep.classes.util.Constants
 
-@Database(entities = [Schedule::class, Student::class], version = 1, exportSchema = false)
+@Database(entities = [(Schedule::class), (Student::class)], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun scheduleDao(): ScheduleDao
-    abstract fun studentsDao(): StudentDao
-
     companion object {
+        @Volatile
         private var sInstance: AppDatabase? = null
-        private var database: String = "classes"
 
-        fun getInstance(context: Context): AppDatabase? {
-            if (sInstance == null) {
-                synchronized(AppDatabase::class) {
-                    sInstance = Room.databaseBuilder(
-                        context,
-                        AppDatabase::class.java,
-                        database
-                    ).build()
-                }
+        fun getInstance(context: Context): AppDatabase = sInstance ?: synchronized(this) {
+            sInstance ?: Room.databaseBuilder(
+                context,
+                AppDatabase::class.java,
+                Constants.DATABASE_NAME
+            ).build().also {
+                sInstance = it
             }
-
-            return sInstance
         }
     }
+
+    abstract fun scheduleDao(): ScheduleDao
+    abstract fun studentsDao(): StudentDao
 }

@@ -9,6 +9,7 @@ import android.widget.EditText
 import com.jjep.classes.R
 import com.jjep.classes.database.AppDatabase
 import com.jjep.classes.database.Student
+import org.jetbrains.anko.doAsync
 import kotlin.concurrent.thread
 
 class AddStudentActivity : AppCompatActivity() {
@@ -41,7 +42,7 @@ class AddStudentActivity : AppCompatActivity() {
         val studentName: String = mEdtStudentName?.text.toString()
         val studentEntry = Student(null, studentName)
 
-        thread { mDb?.studentsDao()?.insert(studentEntry) }
+        doAsync { mDb?.studentsDao()?.insert(studentEntry) }
 
         finish()
     }

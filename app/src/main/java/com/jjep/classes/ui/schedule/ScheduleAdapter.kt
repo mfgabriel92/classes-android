@@ -35,7 +35,7 @@ class ScheduleAdapter(context: Context, onItemClickListener: OnItemClickListener
         val time: String = classEntry.time!!
 
         holder.tvStudentName?.text = studentName
-        holder.tvStudentObs?.text = studentObs
+        holder.tvStudentObs?.text = if (studentObs != "") studentObs else mContext?.getString(R.string.no_student_obs)
         holder.tvClassTime?.text = time
     }
 

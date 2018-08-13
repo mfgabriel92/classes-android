@@ -11,6 +11,6 @@ interface StudentDao {
     @Query("SELECT * FROM students")
     fun getStudents() : LiveData<List<Student>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(data: Student)
 }
